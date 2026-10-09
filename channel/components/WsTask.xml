@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="WsTask" extends="Task">
+    <interface>
+        <field id="url"        type="string" />
+        <field id="intervalMs" type="integer" value="1000" />
+        <field id="paused"     type="boolean" value="false" />
+        <field id="frameUri"   type="string" />
+        <field id="status"     type="string" />
+        <field id="sendText"   type="string" />
+        <field id="sendSeq"    type="integer" value="0" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/WsTask.brs" />
+</component>

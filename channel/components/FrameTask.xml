@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="FrameTask" extends="Task">
+    <interface>
+        <field id="baseUrl"    type="string" />
+        <field id="intervalMs" type="integer" value="1000" />
+        <field id="paused"     type="boolean" value="false" />
+        <field id="frameUri"   type="string" />
+        <field id="status"     type="string" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/FrameTask.brs" />
+</component>

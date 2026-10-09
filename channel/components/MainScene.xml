@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+    <children>
+        <!-- two posters, used alternately: a new picture is loaded into the hidden one and only shown once
+             it is ready, so the screen never goes blank between frames -->
+        <Poster id="frame"  translation="[60,0]" width="1800" height="1080" loadDisplayMode="scaleToFit" />
+        <Poster id="frameB" translation="[60,0]" width="1800" height="1080" loadDisplayMode="scaleToFit" visible="false" />
+
+        <!-- crosshair cursor; the Group origin is the tap point -->
+        <Group id="cursor" visible="false">
+            <Rectangle color="0x000000FF" translation="[-24,-3]"  width="48" height="6" />
+            <Rectangle color="0x000000FF" translation="[-3,-24]"  width="6"  height="48" />
+            <Rectangle id="hbar" color="0xFFFFFFFF" translation="[-22,-1]" width="44" height="2" />
+            <Rectangle id="vbar" color="0xFFFFFFFF" translation="[-1,-22]" width="2"  height="44" />
+        </Group>
+
+        <Rectangle id="statusBar" color="0x000000D0" translation="[0,1008]" width="1920" height="72" visible="false">
+            <Label id="statusLabel" translation="[40,0]" width="1840" height="72"
+                   vertAlign="center" horizAlign="left" color="0xFFFFFFFF" />
+        </Rectangle>
+
+        <Timer id="cursorTimer" repeat="false" duration="5" />
+        <Timer id="statusTimer" repeat="false" duration="3" />
+        <Timer id="tapTimer"    repeat="false" duration="0.25" />
+    </children>
+    <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+</component>
