@@ -1,0 +1,59 @@
+name: Build Roku package
+
+on:
+  push:
+    tags: ['v*']          # e.g. git tag v1.0.2 && git push --tags
+  workflow_dispatch:       # "Run workflow" button in the Actions tab
+  pull_request:            # build-only check on PRs
+
+permissions:
+  contents: write          # needed only to attach the zip to a release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from manifest
+        id: ver
+        run: |
+          get() { grep -E "^$1=" channel/manifest | cut -d= -f2 | tr -d '\r '; }
+          V="$((10#$(get major_version))).$((10#$(get minor_version))).$((10#$(get build_version)))"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "Manifest version: $V"
+
+      - name: Build store package (no baked-in address)
+        run: bash tools/build.sh
+
+      - name: Check the package
+        run: |
+          set -e
+          Z=dist/hamclock-roku.zip
+          if unzip -p "$Z" manifest | grep -q '^default_address='; then
+            echo "::error::default_address found in manifest - store build must not bake in an address"; exit 1
+          fi
+          SIZE=$(stat -c %s "$Z")
+          echo "Package size: $SIZE bytes"
+          [ "$SIZE" -lt 4194304 ] || { echo "::error::package is over Roku's 4 MB limit"; exit 1; }
+          unzip -l "$Z" | grep -q ' manifest$'
+
+      - name: Name the zip with its version
+        run: cp dist/hamclock-roku.zip "dist/hamclock-roku-${{ steps.ver.outputs.version }}.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hamclock-roku-${{ steps.ver.outputs.version }}
+          path: dist/hamclock-roku-${{ steps.ver.outputs.version }}.zip
+
+      - name: Attach to GitHub Release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [ "$TAG" != "v${{ steps.ver.outputs.version }}" ]; then
+            echo "::warning::tag $TAG does not match manifest version v${{ steps.ver.outputs.version }}"
+          fi
+          gh release create "$TAG" "dist/hamclock-roku-${{ steps.ver.outputs.version }}.zip" \
+            --title "$TAG" --generate-notes
