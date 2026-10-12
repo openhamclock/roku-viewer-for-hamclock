@@ -2,7 +2,8 @@ name: Build Roku package
 
 on:
   push:
-    tags: ['v*']          # e.g. git tag v1.0.2 && git push --tags
+    branches: [main]       # every push to main builds and updates the Release
+    tags: ['v*']
   workflow_dispatch:       # "Run workflow" button in the Actions tab
   pull_request:            # build-only check on PRs
 
@@ -46,14 +47,20 @@ jobs:
           name: hamclock-roku-${{ steps.ver.outputs.version }}
           path: dist/hamclock-roku-${{ steps.ver.outputs.version }}.zip
 
-      - name: Attach to GitHub Release (tags only)
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Publish GitHub Release
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="${GITHUB_REF_NAME}"
-          if [ "$TAG" != "v${{ steps.ver.outputs.version }}" ]; then
-            echo "::warning::tag $TAG does not match manifest version v${{ steps.ver.outputs.version }}"
+          set -e
+          ZIP="dist/hamclock-roku-${{ steps.ver.outputs.version }}.zip"
+          TAG="v${{ steps.ver.outputs.version }}"
+          if [[ "$GITHUB_REF" == refs/tags/v* && "$GITHUB_REF_NAME" != "$TAG" ]]; then
+            echo "::warning::tag $GITHUB_REF_NAME does not match manifest version $TAG; using the tag"
+            TAG="$GITHUB_REF_NAME"
           fi
-          gh release create "$TAG" "dist/hamclock-roku-${{ steps.ver.outputs.version }}.zip" \
-            --title "$TAG" --generate-notes
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$ZIP" --clobber      # same version: replace the zip
+          else
+            gh release create "$TAG" "$ZIP" --target "$GITHUB_SHA" --title "$TAG" --generate-notes
+          fi
