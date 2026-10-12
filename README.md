@@ -13,7 +13,7 @@ remote-control taps.
 2. Set a password for rokudev
 3. Reboot Roku
 4. Connect to Roku on a separate PC at http://\<roku-ip\> using the username and password you set (https does not work make sure it is http)
-5. Download latest Release from Releases page
+5. Download latest Release from [Releases](https://github.com/openhamclock/roku-viewer-for-hamclock/releases) page
 6. Upload zip using the Roku web interface you connected to in Step 4
 7. Click "Install with zip"
 8. HamClock application will start on Roku
