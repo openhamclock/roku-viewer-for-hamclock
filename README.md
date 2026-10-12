@@ -12,7 +12,7 @@ remote-control taps.
 1. Using your Roku remote, enable developer mode using this sequence: Home, Home, Home, Up, Up, Right, Left, Right, Left, Right. See https://developer.roku.com/dev/docs/developer-setup#sideloading-apps
 2. Set a password for rokudev
 3. Reboot Roku
-4. Connect to Roku on a separate PC at http://<roku-ip> using the username and password you set (https does not work make sure it is http)
+4. Connect to Roku on a separate PC at http://\<roku-ip\> using the username and password you set (https does not work make sure it is http)
 5. Download latest Release from Releases page
 6. Upload zip using the Roku web interface you connected to in Step 4
 7. Click "Install with zip"
