@@ -9,7 +9,7 @@ remote-control taps.
 > HamClock or by Roku, Inc. It contains no HamClock code; it only talks to a HamClock you run yourself.
 
 # How to Install
-1. Using your Roku remote, enable developer mode using this sequence: Home x3, Up x2, Right, Left, Right, Left, Right. See https://developer.roku.com/dev/docs/developer-setup#sideloading-apps
+1. Using your Roku remote, enable developer mode using this sequence: Home, Home, Home, Up, Up, Right, Left, Right, Left, Right. See https://developer.roku.com/dev/docs/developer-setup#sideloading-apps
 2. Set a password for rokudev
 3. Reboot Roku
 4. Connect to Roku on a separate PC at http://<roku-ip> using the username and password you set (https does not work make sure it is http)
