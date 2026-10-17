@@ -171,7 +171,7 @@ function isLive() as Boolean
 end function
 
 sub showSettings()
-    dlg = CreateObject("roSGNode", "KeyboardDialog")
+    dlg = CreateObject("roSGNode", "StandardKeyboardDialog")
     ' Always start with an EMPTY field (nothing to delete), and show what is saved in the title.
     ' Cancel keeps the current address.
     if m.base <> "" then

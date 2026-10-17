@@ -48,7 +48,6 @@ function fetchToFile(url as String, file as String) as String
     xfer.SetUrl(url)
     if Left(url, 5) = "https" then
         xfer.SetCertificatesFile("common:/certs/ca-bundle.crt")
-        xfer.InitClientCertificates()
     end if
 
     if not xfer.AsyncGetToFile(file) then return "could not start request"
