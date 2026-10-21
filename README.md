@@ -8,7 +8,10 @@ remote-control taps.
 > **Unofficial.** This is an independent project. It is not made, endorsed or supported by the author of
 > HamClock or by Roku, Inc. It contains no HamClock code; it only talks to a HamClock you run yourself.
 
-# How to Install
+# Use App Store Link (easy install)
+See https://my.roku.com/account/add/9NPZQZD
+
+# How to Sideload
 1. Using your Roku remote, enable developer mode using this sequence: Home, Home, Home, Up, Up, Right, Left, Right, Left, Right. See https://developer.roku.com/dev/docs/developer-setup#sideloading-apps
 2. Set a password for rokudev
 3. Reboot Roku
